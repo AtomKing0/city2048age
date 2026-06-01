@@ -1439,25 +1439,30 @@ export function CityCompletePopup({ currentAgeData, nextAgeData, onContinue, onC
           {currentAgeData?.name}
         </div>
 
-        {nextAgeData && (
+        {nextAgeData ? (
           <div style={{
-            width: '100%', background: '#0d1828', borderRadius: 12,
-            padding: '10px 14px', marginBottom: 16,
-            display: 'flex', alignItems: 'center', gap: 10,
+            width: '100%', background: '#0d1828', borderRadius: 14,
+            padding: '12px 12px 14px',
+            display: 'flex', flexDirection: 'column', gap: 12,
           }}>
-            <img src={`assets/icons/theme-${nextAgeData.id}.png`}
-              width={40} height={40}
-              style={{ borderRadius: 10, objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.15)', flexShrink: 0 }} />
-            <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>Next City Unlocked</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: '#ffffff' }}>{nextAgeData.name}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '2px 2px 0' }}>
+              <img src={`assets/icons/theme-${nextAgeData.id}.png`}
+                width={44} height={44}
+                style={{ borderRadius: 10, objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.15)', flexShrink: 0 }} />
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>Next City Unlocked</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: '#ffffff' }}>{nextAgeData.name}</div>
+              </div>
             </div>
+            <BigButton variant="green" onClick={onContinue}>
+              <span>Continue Game</span>
+            </BigButton>
           </div>
+        ) : (
+          <BigButton variant="green" onClick={onContinue}>
+            <span>Continue Game</span>
+          </BigButton>
         )}
-
-        <BigButton variant="green" onClick={onContinue}>
-          <span>Continue Game</span>
-        </BigButton>
       </div>
     </Overlay>
   );
