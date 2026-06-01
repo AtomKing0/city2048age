@@ -5,7 +5,7 @@
     "nameKo": "클래식 시티",
     "icon": "🏙",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [
@@ -26,7 +26,7 @@
     "nameKo": "고대 이집트",
     "icon": "𓂀",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [
@@ -47,7 +47,7 @@
     "nameKo": "중세 시대",
     "icon": "🏰",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [
@@ -68,7 +68,7 @@
     "nameKo": "산업화 시대",
     "icon": "🏭",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [
@@ -89,7 +89,7 @@
     "nameKo": "고대 중국",
     "icon": "🏯",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [
@@ -110,7 +110,7 @@
     "nameKo": "글로벌 시티",
     "icon": "🌏",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [
@@ -152,7 +152,7 @@
     "nameKo": "석기 시대",
     "icon": "🔥",
     "bgFrom": "#2c3a53",
-    "bgTo": "#1a2845",
+    "bgTo": "#283b55",
     "boardBg": "#1F2B52",
     "boardCell": "rgba(0,0,0,0.18)",
     "tilePalette": [

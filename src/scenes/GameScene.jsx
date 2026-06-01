@@ -770,6 +770,7 @@ export default function CityGame() {
       fontFamily: 'var(--font-ui)', color: 'var(--ink-700)',
       position: 'relative', overflow: 'hidden',
     }}>
+      <FloatingClouds age={tweaks.age} />
       <BillboardCar onEarned={handleCarEarned} />
 
       <TopHUD

@@ -142,7 +142,7 @@ function CloudShape({ color }) {
 export const FloatingClouds = memo(function FloatingClouds({ age }) {
   const palette = CLOUD_COLORS[age] || CLOUD_COLORS.classic;
   return (
-    <div style={{ position: 'relative', height: 40, pointerEvents: 'none', flexShrink: 0, zIndex: 1 }}>
+    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
       {CLOUD_CONFIGS.map((c, i) => (
         <div key={i} style={{
           position: 'absolute',
@@ -353,12 +353,10 @@ function BoosterBtn({ src, icon, label, badge, cost, onClick, disabled, active, 
         transition: 'transform 80ms, box-shadow 80ms',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         outline: active ? `2.5px solid ${color}` : 'none',
-        outlineOffset: 2, borderRadius: 14,
+        outlineOffset: 2, borderRadius: '50%',
       }}>
-        <SliceSpan
-          src={disabled ? 'assets/ui/ui_ingame_main_icon_box_dim.png' : 'assets/ui/ui_ingame_main_icon_box_01.png'}
-          slice={30} bw={12}
-        />
+        <GameImg src="assets/ui/ui_ingame_item_box.png" width={58} height={58}
+          style={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'block' }} />
         {icon
           ? <span style={{ position: 'relative', fontSize: 26, lineHeight: 1, filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.4))' }}>{icon}</span>
           : <GameImg src={src} width={30} height={30} style={{ position: 'relative', display: 'block', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.4))' }}/>
@@ -370,13 +368,15 @@ function BoosterBtn({ src, icon, label, badge, cost, onClick, disabled, active, 
       {badge != null ? (
         <div style={{
           position: 'absolute', top: -3, right: 3, width: 24, height: 24,
-          borderStyle: 'solid', borderWidth: 1,
-          borderImage: `url('assets/ui/ui_item_count_box.png') 18 fill / 10px stretch`,
+          borderRadius: '50%',
+          background: 'linear-gradient(180deg,#34C3FA,#00A6EE)',
+          border: '2px solid #FFFFFF',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, color: '#FFF8EC',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, color: '#FFFFFF',
         }}>{badge}</div>
       ) : cost != null ? (
-        <div style={{ position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(180deg,#FFD86A,#F5A828)', color: '#793010', padding: '2px 6px', borderRadius: 999, fontSize: 12, fontWeight: 800, fontFamily: 'var(--font-display)', border: '1.5px solid rgba(58,30,14,0.2)', display: 'flex', alignItems: 'center', gap: 2, lineHeight: 1, whiteSpace: 'nowrap', boxShadow: '0 2px 0 rgba(58,30,14,0.25)' }}>
+        <div style={{ position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(180deg,#FFFFFF,#FDEFD0)', color: '#243244', padding: '2px 6px', borderRadius: 999, fontSize: 12, fontWeight: 800, fontFamily: 'var(--font-display)', border: '1.5px solid rgba(58,30,14,0.15)', display: 'flex', alignItems: 'center', gap: 2, lineHeight: 1, whiteSpace: 'nowrap', boxShadow: '0 2px 0 rgba(58,30,14,0.2)' }}>
           <GameImg src="assets/icons/coin.png" width={11} height={11}/>{cost}
         </div>
       ) : null}
@@ -517,7 +517,7 @@ function SysBtn({ icon, label, onClick, disabled, variant, badge, buttonRef, kee
   );
 }
 
-export const BottomBar = memo(function BottomBar({ onRestart, onAdReward, adButtonRef }) {
+export const BottomBar = memo(function BottomBar({ onRestart, onAdReward, adButtonRef, reward = 70 }) {
   const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
@@ -548,11 +548,13 @@ export const BottomBar = memo(function BottomBar({ onRestart, onAdReward, adButt
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
           }}>
           <div style={{ position: 'relative', width: 62, height: 62, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <SliceSpan src="assets/ui/ui_ad_reward.png" slice={20} bw={14} />
-            <GameImg src="assets/atlas/icon_ad.png" width={32} height={32} style={{ position: 'relative', display: 'block' }} />
+            <GameImg src="assets/ui/ui_ad_reward.png" width={62} height={62} style={{ display: 'block', objectFit: 'contain' }} />
+            <div style={{ position: 'absolute', top: 2, right: 7, width: 13, height: 13, borderRadius: '50%', background: '#FF3B3B', border: '2px solid #fff', boxShadow: '0 1px 3px rgba(0,0,0,0.35)' }} />
           </div>
-          <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 13, color: '#ffffff', textAlign: 'center', lineHeight: 1 }}>
-            {cooldown > 0 ? `${cooldown}s` : 'Ad Reward'}
+          <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 13, color: '#ffffff', textAlign: 'center', lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            {cooldown > 0 ? `${cooldown}s` : (
+              <>+<GameImg src="assets/icons/coin.png" width={13} height={13} style={{ display: 'block' }} />{reward}</>
+            )}
           </div>
         </button>
       </div>
