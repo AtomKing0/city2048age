@@ -1,0 +1,2 @@
+- [Economy constants location](project_economy_constants.md) — balance numbers live in GameScene.jsx/ui.jsx, NOT balance.json; shop price/deduction mismatch bug
+- [PixiJS/Audio leak hazards](project_pixi_audio_leak_hazards.md) — shared-texture destroy options, per-age badge cache eviction, BGM decoder teardown = mobile slowdown causes

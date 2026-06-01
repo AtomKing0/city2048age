@@ -1,0 +1,70 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>UI Smoke Test</title>
+<main>
+  <strong id="coins">2,600</strong>
+  <strong id="score">0</strong>
+  <strong id="best">0</strong>
+  <strong id="progressText">1/14</strong>
+  <div id="progressFill"></div>
+  <div id="board"></div>
+  <button id="soundBtn" type="button">sound</button>
+  <button id="undoBtn" type="button">undo</button>
+  <button id="removeBtn" type="button">remove</button>
+  <button id="restartBtn" type="button">restart</button>
+  <button data-dir="left" type="button">left</button>
+  <dialog id="modal">
+    <h2 id="modalTitle"></h2>
+    <p id="modalBody"></p>
+    <button id="closeModal" type="button">close</button>
+    <button id="modalAction" type="button">ok</button>
+  </dialog>
+</main>
+<pre id="result">running</pre>
+<script src="./game-core.js"></script>
+<script src="./script.js"></script>
+<script>
+  const result = document.getElementById("result");
+
+  function fail(message) {
+    result.textContent = `FAIL: ${message}`;
+    document.body.dataset.status = "fail";
+  }
+
+  function pass(message) {
+    result.textContent = `PASS: ${message}`;
+    document.body.dataset.status = "pass";
+  }
+
+  setTimeout(async () => {
+    try {
+      if (document.querySelectorAll(".cell").length !== 16) return fail("board did not render 16 cells");
+      const tilesBefore = document.querySelectorAll(".tile").length;
+      if (tilesBefore < 6) return fail(`expected demo board with multiple building tiles, got ${tilesBefore}`);
+
+      document.getElementById("removeBtn").click();
+      if (!document.querySelector(".tile.selectable")) return fail("remove mode did not mark selectable tiles");
+      document.querySelector(".tile").closest(".cell").click();
+      if (document.querySelectorAll(".tile").length !== tilesBefore - 1) return fail("remove did not delete one tile");
+      if (document.getElementById("coins").textContent.trim() !== "2,500") return fail("remove did not charge 100 coins");
+
+      document.getElementById("undoBtn").click();
+      if (document.querySelectorAll(".tile").length !== tilesBefore) return fail("undo did not restore removed tile");
+      if (document.getElementById("coins").textContent.trim() !== "2,450") return fail("undo did not charge 50 coins");
+
+      await move("left");
+      if (document.querySelectorAll(".tile").length < 2) return fail("move left left board in invalid state");
+      const scoreAfterMove = document.getElementById("score").textContent.trim();
+      const board = document.getElementById("board");
+      board.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, clientX: 220, clientY: 220, pointerId: 1 }));
+      board.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, clientX: 220, clientY: 320, pointerId: 1 }));
+      await new Promise((resolve) => setTimeout(resolve, 420));
+      if (document.getElementById("score").textContent.trim() === scoreAfterMove && document.querySelectorAll(".tile").length < 2) {
+        return fail("pointer drag left board in invalid state");
+      }
+      pass("render, remove, undo, and move smoke checks passed");
+    } catch (error) {
+      fail(error.stack || error.message);
+    }
+  }, 200);
+</script>

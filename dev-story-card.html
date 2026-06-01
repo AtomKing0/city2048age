@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>City 2048 — 개발 과정</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #0F0E1A;
+  }
+
+  .card {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    background: linear-gradient(135deg, #0F0E1A 0%, #1A1630 50%, #0F1A1A 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 56px 40px;
+  }
+
+  /* background decorations */
+  .bg-circle-1 {
+    position: absolute; top: -120px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,60,255,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .bg-circle-2 {
+    position: absolute; bottom: -100px; left: 200px;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(20,200,160,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+  }
+
+  /* header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .title-block {}
+  .eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #14C8A0;
+    margin-bottom: 6px;
+  }
+  .title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.1;
+  }
+  .title span { color: #8B7CFF; }
+  .subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 400;
+  }
+  .badge-stack {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 4px;
+  }
+  .badge {
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .badge-purple { background: rgba(139,124,255,0.15); color: #8B7CFF; border: 1px solid rgba(139,124,255,0.3); }
+  .badge-teal   { background: rgba(20,200,160,0.12);  color: #14C8A0; border: 1px solid rgba(20,200,160,0.25); }
+  .badge-orange { background: rgba(255,160,60,0.12);  color: #FFA03C; border: 1px solid rgba(255,160,60,0.25); }
+
+  /* flow arrow */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
+  .step {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px 20px 18px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .step-1 { border-top: 2px solid #8B7CFF; }
+  .step-2 { border-top: 2px solid #14C8A0; }
+  .step-3 { border-top: 2px solid #FFA03C; }
+  .step-4 { border-top: 2px solid #FF6B9D; }
+
+  .step-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .step-1 .step-num { color: #8B7CFF; }
+  .step-2 .step-num { color: #14C8A0; }
+  .step-3 .step-num { color: #FFA03C; }
+  .step-4 .step-num { color: #FF6B9D; }
+
+  .step-icon {
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .step-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .step-items li {
+    font-size: 12px;
+    color: rgba(255,255,255,0.58);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.4;
+  }
+  .step-items li::before {
+    content: '·';
+    flex-shrink: 0;
+    opacity: 0.4;
+    margin-top: 1px;
+  }
+  .step-items li em {
+    font-style: normal;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+
+  .arrow {
+    width: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.2);
+    font-size: 18px;
+  }
+
+  /* duck tape highlight */
+  .tape-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,160,60,0.15);
+    border: 1px solid rgba(255,160,60,0.3);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFA03C;
+    margin-top: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* footer */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 16px;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .stat-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(255,255,255,0.1);
+  }
+  .url-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+  }
+  .url-tag a {
+    color: #8B7CFF;
+    text-decoration: none;
+  }
+
+  /* AI % label */
+  .ai-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .ai-bar-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    white-space: nowrap;
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .ai-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .ai-bar-fill {
+    height: 100%;
+    width: 90%;
+    background: linear-gradient(90deg, #8B7CFF, #14C8A0);
+    border-radius: 99px;
+  }
+  .ai-bar-pct {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #8B7CFF;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bg-grid"></div>
+  <div class="bg-circle-1"></div>
+  <div class="bg-circle-2"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="title-block">
+      <div class="eyebrow">How We Built It</div>
+      <div class="title">🏙️ City <span>2048</span></div>
+      <div class="subtitle">문명 발전 2048 게임 — AI 주도 개발 프로세스</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+      <div class="badge-stack">
+        <div class="badge badge-purple">React + PixiJS</div>
+        <div class="badge badge-teal">Claude AI</div>
+        <div class="badge badge-orange">GitHub Pages</div>
+      </div>
+      <div class="ai-bar" style="width:320px;">
+        <div class="ai-bar-label">AI 코드 비중</div>
+        <div class="ai-bar-track"><div class="ai-bar-fill"></div></div>
+        <div class="ai-bar-pct">~90%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steps flow -->
+  <div class="flow">
+
+    <!-- Step 1 -->
+    <div class="step step-1">
+      <div class="step-num">Step 01 · <span style="font-weight:400;opacity:0.7;">반나절</span></div>
+      <div class="step-icon">🎨</div>
+      <div class="step-title">Claude.ai/design<br/>기획 & 설계</div>
+      <ul class="step-items">
+        <li><em>게임 컨셉</em> 구체화</li>
+        <li>에이지 시스템 설계<br/>(Stone → Egypt → Space…)</li>
+        <li>코인·부스터 경제 설계</li>
+        <li>React + PixiJS<br/>기술 스택 결정</li>
+        <li>컴포넌트 구조 초안</li>
+      </ul>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- Step 2 -->
+    <div class="step step-2">
+      <div class="step-num">Step 02 · <span style="font-weight:400;opacity:0.7;">하루</span></div>
+      <div class="step-icon">⚡</div>
+      <div class="step-title">Claude Code<br/>반복 구현</div>
+      <ul class="step-items">
+        <li>파일 직접 읽기·수정<br/><em>233회</em> 이터레이션</li>
+        <li>PixiJS 보드 렌더러</li>
+        <li>모바일 레이아웃 최적화</li>
+        <li>성능 최적화<br/>(캐시·파티클·오디오)</li>
+        <li>광고·리워드 시스템</li>
+        <li>🦆 에이지별 빌딩 이미지<br/><em>5 ages × 14단계</em> 직접 수집</li>
+        <li>🦆 OVERSCAN 수동 튜닝<br/>(레벨별 빌딩 크기 맞추기)</li>
+      </ul>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+        <div class="tape-badge" style="background:rgba(20,200,160,0.12);border-color:rgba(20,200,160,0.3);color:#14C8A0;">✦ Claude Sonnet 100%</div>
+        <div class="tape-badge">🦆 Duck Tape</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Challenge bar -->
+  <div style="position:relative;z-index:1;margin-top:18px;margin-bottom:0;display:flex;align-items:center;gap:12px;background:rgba(255,80,80,0.06);border:1px solid rgba(255,100,100,0.18);border-radius:12px;padding:12px 20px;">
+    <span style="font-size:22px;flex-shrink:0;">📱</span>
+    <div style="flex:1;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#FF7070;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">현재 도전 과제</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.4;">모바일에서 엄청 버벅거림 🥲 — PixiJS 렌더 루프 최적화, 드로우콜 줄이기, 저사양 기기 대응 방법 고민 중</div>
+    </div>
+    <div style="flex-shrink:0;background:rgba(255,80,80,0.12);border:1px solid rgba(255,100,100,0.25);border-radius:8px;padding:4px 12px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:#FF8080;">WIP 🔧</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="stat">
+        <div class="stat-val">5 Ages</div>
+        <div class="stat-label">Stone / China / Egypt<br/>Industrial / Medieval</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-val">233×</div>
+        <div class="stat-label">GameScene<br/>수정 횟수</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-val">5×14</div>
+        <div class="stat-label">에이지별 빌딩<br/>이미지 수집</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-val">Sonnet</div>
+        <div class="stat-label">Claude Code<br/>100% 사용 모델</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:10px;color:rgba(255,255,255,0.28);letter-spacing:0.05em;">🎵 BGM & SFX — 벤치마크 게임 사운드 그대로 사용</div>
+      <div class="url-tag">🌐 <a href="https://atomking0.github.io/supergene-esther/city2048/">atomking0.github.io/supergene-esther/city2048</a></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

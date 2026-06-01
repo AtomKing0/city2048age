@@ -1,0 +1,32 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+
+  // Explorer: Unity-like folder grouping
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "vite.config.js": "vite.config.*,jsconfig.json,package.json,package-lock.json,.gitignore",
+    "index.html": "index.html",
+    "*.jsx": "${capture}.css, ${capture}.module.css",
+    "GameScene.jsx": "GameScene.jsx"
+  },
+
+  // Sidebar folder color / icon theme
+  "workbench.iconTheme": "material-icon-theme",
+
+  // Path alias IntelliSense (jsconfig.json 연동)
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+
+  // Hide noise from explorer
+  "files.exclude": {
+    "node_modules": true,
+    "dist": true,
+    "**/.DS_Store": true,
+    "**/.omc": true,
+    "**/.agents": true
+  },
+
+  // Unity처럼 폴더 먼저 정렬
+  "explorer.sortOrder": "foldersFirst"
+}

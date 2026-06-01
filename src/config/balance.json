@@ -1,0 +1,8 @@
+{
+  "gridSize": 4,
+  "tileNumbers": [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096],
+  "spawnWeights": { "level1": 0.9, "level2": 0.1 },
+  "animDuration": 0.13,
+  "spawnScale": { "duration": 0.22, "ease": "back.out(1.8)" },
+  "mergeScale": { "from": 1.07, "duration": 0.18, "ease": "power2.out" }
+}

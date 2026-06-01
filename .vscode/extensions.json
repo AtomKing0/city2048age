@@ -1,0 +1,25 @@
+{
+  "recommendations": [
+    // Unity-like 폴더 아이콘 (Prefabs=파란박스, Systems=톱니 등)
+    "PKief.material-icon-theme",
+
+    // Path alias (@scenes, @prefabs) 자동완성
+    "christian-kohler.path-intellisense",
+    "mikestead.dotenv",
+
+    // JSDoc 타입힌트 IntelliSense
+    "oouo-diogo-perdigao.docthis",
+
+    // 컴포넌트 미리보기 (React prefab inspector)
+    "yoavbls.pretty-ts-errors",
+
+    // JSON config 편집 (Step 3 balance.json 등)
+    "mohsen1.prettify-json",
+
+    // Git 변경사항 인라인 표시
+    "eamodio.gitlens",
+
+    // 게임 로직 디버깅
+    "ms-vscode.js-debug-nightly"
+  ]
+}

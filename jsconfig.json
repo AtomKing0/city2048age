@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@scenes/*":  ["src/scenes/*"],
+      "@prefabs/*": ["src/prefabs/*"],
+      "@systems/*": ["src/systems/*"],
+      "@config/*":  ["src/config/*"],
+      "@styles/*":  ["src/styles/*"]
+    },
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*"]
+}

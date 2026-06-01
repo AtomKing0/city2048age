@@ -1,0 +1,23 @@
+{
+  "classic": [
+    "assets/buildings/01_tent.png",
+    "assets/buildings/02_hut.png",
+    "assets/buildings/03_cottage.png",
+    "assets/buildings/04_red_house.png",
+    "assets/buildings/05_large_house.png",
+    "assets/buildings/06_shop.png",
+    "assets/buildings/07_cathedral.png",
+    "assets/buildings/08_apartment.png",
+    "assets/buildings/09_office.png",
+    "assets/buildings/10_glass_tower.png",
+    "assets/buildings/11_gold_skyscraper.png",
+    "assets/buildings/12_landmark.png",
+    "assets/buildings/12_landmark.png",
+    "assets/buildings/12_landmark.png"
+  ],
+  "stone":      ["assets/buildings/stone/01.png","assets/buildings/stone/02.png","assets/buildings/stone/03.png","assets/buildings/stone/04.png","assets/buildings/stone/05.png","assets/buildings/stone/06.png","assets/buildings/stone/07.png","assets/buildings/stone/08.png","assets/buildings/stone/09.png","assets/buildings/stone/10.png","assets/buildings/stone/11.png","assets/buildings/stone/12.png","assets/buildings/stone/12.png","assets/buildings/stone/12.png"],
+  "egypt":      ["assets/buildings/egypt/01.png","assets/buildings/egypt/02.png","assets/buildings/egypt/03.png","assets/buildings/egypt/04.png","assets/buildings/egypt/05.png","assets/buildings/egypt/06.png","assets/buildings/egypt/07.png","assets/buildings/egypt/08.png","assets/buildings/egypt/09.png","assets/buildings/egypt/10.png","assets/buildings/egypt/11.png","assets/buildings/egypt/12.png","assets/buildings/egypt/12.png","assets/buildings/egypt/12.png"],
+  "medieval":   ["assets/buildings/medieval/01.png","assets/buildings/medieval/02.png","assets/buildings/medieval/03.png","assets/buildings/medieval/04.png","assets/buildings/medieval/05.png","assets/buildings/medieval/06.png","assets/buildings/medieval/07.png","assets/buildings/medieval/08.png","assets/buildings/medieval/09.png","assets/buildings/medieval/10.png","assets/buildings/medieval/11.png","assets/buildings/medieval/12.png","assets/buildings/medieval/12.png","assets/buildings/medieval/12.png"],
+  "industrial": ["assets/buildings/industrial/01.png","assets/buildings/industrial/02.png","assets/buildings/industrial/03.png","assets/buildings/industrial/04.png","assets/buildings/industrial/05.png","assets/buildings/industrial/06.png","assets/buildings/industrial/07.png","assets/buildings/industrial/08.png","assets/buildings/industrial/09.png","assets/buildings/industrial/10.png","assets/buildings/industrial/11.png","assets/buildings/industrial/12.png","assets/buildings/industrial/12.png","assets/buildings/industrial/12.png"],
+  "china":      ["assets/buildings/china/01.png","assets/buildings/china/02.png","assets/buildings/china/03.png","assets/buildings/china/04.png","assets/buildings/china/05.png","assets/buildings/china/06.png","assets/buildings/china/07.png","assets/buildings/china/08.png","assets/buildings/china/09.png","assets/buildings/china/10.png","assets/buildings/china/11.png","assets/buildings/china/12.png","assets/buildings/china/12.png","assets/buildings/china/12.png"]
+}

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+input/
+output/
+*.apk
+.DS_Store
+**/.omc/
+.agents/
+docs/.pdca-snapshots/
+docs/.bkit-memory.json
+docs/.pdca-status.json
+*.bak
+1DEAD1AE-E4B4-4825-9464-B4454BA41B22.PNG
+
+*storybook.log
+node_modules
+dist

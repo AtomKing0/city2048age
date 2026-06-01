@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>City 2048</title>
+    <link rel="icon" type="image/png" href="/assets/buildings/12_landmark.png" />
+    <!-- Preload critical popup assets to prevent flickering and layout shift -->
+    <link rel="preload" href="/assets/howtoplay.png" as="image" />
+    <link rel="preload" href="/assets/icons/coin.png" as="image" />
+    <link rel="preload" href="/assets/atlas/icon_undo.png" as="image" />
+    <link rel="preload" href="/assets/atlas/icon_eraser.png" as="image" />
+    <link rel="preload" href="/assets/atlas/icon_ad.png" as="image" />
+  </head>
+  <body style="margin:0;padding:0;background:#1a1a2e;overflow:hidden;height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
