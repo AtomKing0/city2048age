@@ -94,7 +94,7 @@ export class BoardView {
   async init(canvas) {
     const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
     const resolution = isMobile
-      ? Math.min(window.devicePixelRatio || 1, 2)
+      ? Math.min(window.devicePixelRatio || 1, 1.5)
       : (window.devicePixelRatio || 1);
 
     this._app = new Application();

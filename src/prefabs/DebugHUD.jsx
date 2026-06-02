@@ -14,6 +14,8 @@ const METRICS = [
   ['svgEl',   () => document.getElementsByTagName('svg').length],
   ['canvasEl',() => document.getElementsByTagName('canvas').length],
   ['divEl',   () => document.getElementsByTagName('div').length],
+  // tickerOn=1 while idle ⇒ PIXI is re-rendering 60fps for nothing (the real GPU drain)
+  ['tickerOn', () => (window.__bv?._app?.ticker?.started ? 1 : 0)],
   ['gsapTw',  () => gsap.globalTimeline.getChildren(true, true, false).length],
   ['sprites', () => window.__bv?._sprites?.size ?? -1],
   ['poolSum', () => (window.__bv ? [...window.__bv._pool.values()].reduce((a, l) => a + l.length, 0) : -1)],
