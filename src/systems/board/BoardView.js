@@ -378,7 +378,6 @@ export class BoardView {
 
   spawnMergeParticles(r, c) {
     if (!this._app) return;
-    if (IS_MOBILE) return; // perf: no particles on mobile
     this._startTicker();
 
     const x = cellX(c);

@@ -21,9 +21,6 @@ import DebugHUD from '../prefabs/DebugHUD.jsx';
 
 // Runtime leak diagnostics overlay — only when ?debug=1 is in the URL.
 const DEBUG = typeof location !== 'undefined' && new URLSearchParams(location.search).has('debug');
-// Mobile perf: disable continuous full-screen decorative animations (clouds, billboard car)
-// that force per-frame compositing over the WebGL canvas on iOS Safari.
-const IS_MOBILE = typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
 const CITY_IDS = ['stone','egypt','medieval','industrial','china','classic','global','space'];
 function getNextCity(id) {
@@ -780,8 +777,8 @@ export default function CityGame() {
       position: 'relative', overflow: 'hidden',
     }}>
       {DEBUG && <DebugHUD />}
-      {!IS_MOBILE && <FloatingClouds age={tweaks.age} />}
-      {!IS_MOBILE && <BillboardCar onEarned={handleCarEarned} />}
+      <FloatingClouds age={tweaks.age} />
+      <BillboardCar onEarned={handleCarEarned} />
 
       <TopHUD
         ageData={ageData} score={score} highScore={highScore}
