@@ -568,13 +568,17 @@ export class BoardView {
       img.x = t.x;
       img.y = t.y;
 
-      const clipMask = new Sprite(this._clipMaskTexture);
-      clipMask.x = -CELL / 2;
-      clipMask.y = -CELL / 2;
-
       const imgWrapper = new Container();
-      imgWrapper.addChild(clipMask);
-      imgWrapper.mask = clipMask;
+      if (!IS_MOBILE) {
+        // Rounded-corner clip via sprite mask. Skipped on mobile: each masked
+        // container is a separate stencil pass — catastrophic on iOS Safari WebGL
+        // (11 tiles → ~7 FPS). Building art is sized to fit, so overflow is minimal.
+        const clipMask = new Sprite(this._clipMaskTexture);
+        clipMask.x = -CELL / 2;
+        clipMask.y = -CELL / 2;
+        imgWrapper.addChild(clipMask);
+        imgWrapper.mask = clipMask;
+      }
       imgWrapper.addChild(img);
       container.addChild(imgWrapper);
       container.__img = img;
