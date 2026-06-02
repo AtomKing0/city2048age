@@ -3,6 +3,9 @@ import { gsap } from 'gsap';
 import { getBuildingTexture, getTileBoxTexture } from './AssetLoader.js';
 import { AGES } from '../../config/ages.js';
 
+// Mobile: skip merge particles (16+ animated sprites/frame is costly on iOS Safari WebGL)
+const IS_MOBILE = typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
 function ageBadgeColor() {
   return 0xFFFFFF;
 }
@@ -375,6 +378,7 @@ export class BoardView {
 
   spawnMergeParticles(r, c) {
     if (!this._app) return;
+    if (IS_MOBILE) return; // perf: no particles on mobile
     this._startTicker();
 
     const x = cellX(c);

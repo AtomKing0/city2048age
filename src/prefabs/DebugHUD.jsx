@@ -30,8 +30,21 @@ const WATCH = new Set(['heap', 'domNodes', 'gsapTw', 'sprites', 'poolSum', 'tile
 
 export default function DebugHUD() {
   const [rows, setRows] = useState([]);
+  const [fps, setFps] = useState(0);
   const hist = useRef({});
   const peak = useRef({});
+
+  // RAF-based FPS — reflects real page/render frame rate. <20 = render-bound.
+  useEffect(() => {
+    let raf, frames = 0, last = performance.now();
+    const loop = (ts) => {
+      frames++;
+      if (ts - last >= 500) { setFps(Math.round((frames * 1000) / (ts - last))); frames = 0; last = ts; }
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useEffect(() => {
     const sample = () => {
@@ -60,6 +73,9 @@ export default function DebugHUD() {
       padding: '6px 8px', borderRadius: 6, pointerEvents: 'none', whiteSpace: 'pre',
     }}>
       <div style={{ color: '#fc6', marginBottom: 2, fontWeight: 700 }}>DIAG  Δ=last60s</div>
+      <div style={{ color: fps < 20 ? '#ff7b7b' : fps < 40 ? '#ffd86a' : '#7CFC9A', fontWeight: 700, marginBottom: 2 }}>
+        {`fps     ${String(fps).padStart(6)}`}
+      </div>
       {rows.map((r) => {
         const leaking = WATCH.has(r.k) && r.d > 0;
         return (
