@@ -8,6 +8,12 @@ import { gsap } from 'gsap';
 const METRICS = [
   ['heap',    () => (performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1048576) : -1), 'M'],
   ['domNodes',() => document.getElementsByTagName('*').length],
+  // DOM breakdown — pinpoints which element type is growing
+  ['coinEl',  () => document.getElementsByClassName('flying-coin').length],
+  ['imgEl',   () => document.getElementsByTagName('img').length],
+  ['svgEl',   () => document.getElementsByTagName('svg').length],
+  ['canvasEl',() => document.getElementsByTagName('canvas').length],
+  ['divEl',   () => document.getElementsByTagName('div').length],
   ['gsapTw',  () => gsap.globalTimeline.getChildren(true, true, false).length],
   ['sprites', () => window.__bv?._sprites?.size ?? -1],
   ['poolSum', () => (window.__bv ? [...window.__bv._pool.values()].reduce((a, l) => a + l.length, 0) : -1)],
@@ -18,7 +24,7 @@ const METRICS = [
 ];
 
 // metrics where a sustained positive Δ likely means a leak
-const WATCH = new Set(['heap', 'domNodes', 'gsapTw', 'sprites', 'poolSum', 'tileCh', 'partCh']);
+const WATCH = new Set(['heap', 'domNodes', 'gsapTw', 'sprites', 'poolSum', 'tileCh', 'partCh', 'imgEl', 'svgEl', 'canvasEl', 'divEl']);
 
 export default function DebugHUD() {
   const [rows, setRows] = useState([]);
