@@ -17,6 +17,10 @@ import {
   CityCompletePopup, NewCityBoostPopup,
   BillboardCar, HowToPlayPopup,
 } from '../prefabs/ui.jsx';
+import DebugHUD from '../prefabs/DebugHUD.jsx';
+
+// Runtime leak diagnostics overlay — only when ?debug=1 is in the URL.
+const DEBUG = typeof location !== 'undefined' && new URLSearchParams(location.search).has('debug');
 
 const CITY_IDS = ['stone','egypt','medieval','industrial','china','classic','global','space'];
 function getNextCity(id) {
@@ -263,6 +267,7 @@ export default function CityGame() {
     if (!canvasRef.current) return;
     const bv = new BoardView();
     boardViewRef.current = bv;
+    if (DEBUG) window.__bv = bv;
     const age = tweaks.age;
     GameManager.init({ audio: audioManager, board: bv });
     let cancelled = false;
@@ -299,6 +304,7 @@ export default function CityGame() {
       clearTimeout(fallbackTimer);
       bv.destroy();
       boardViewRef.current = null;
+      if (DEBUG) window.__bv = null;
     };
   }, []);
 
@@ -770,6 +776,7 @@ export default function CityGame() {
       fontFamily: 'var(--font-ui)', color: 'var(--ink-700)',
       position: 'relative', overflow: 'hidden',
     }}>
+      {DEBUG && <DebugHUD />}
       <FloatingClouds age={tweaks.age} />
       <BillboardCar onEarned={handleCarEarned} />
 
