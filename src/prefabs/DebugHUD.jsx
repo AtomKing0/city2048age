@@ -72,7 +72,7 @@ export default function DebugHUD() {
       font: '10px/1.32 ui-monospace, Menlo, monospace',
       padding: '6px 8px', borderRadius: 6, pointerEvents: 'none', whiteSpace: 'pre',
     }}>
-      <div style={{ color: '#fc6', marginBottom: 2, fontWeight: 700 }}>DIAG  Δ=last60s</div>
+      <div style={{ color: '#fc6', marginBottom: 2, fontWeight: 700 }}>DIAG build:P8  Δ=60s</div>
       <div style={{ color: fps < 20 ? '#ff7b7b' : fps < 40 ? '#ffd86a' : '#7CFC9A', fontWeight: 700, marginBottom: 2 }}>
         {`fps     ${String(fps).padStart(6)}`}
       </div>
