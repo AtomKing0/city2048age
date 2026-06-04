@@ -780,7 +780,7 @@ export default function CityGame() {
       position: 'relative', overflow: 'hidden',
     }}>
       {DEBUG && <DebugHUD />}
-      {!IS_MOBILE && <FloatingClouds age={tweaks.age} />}
+      <FloatingClouds age={tweaks.age} />
       {!IS_MOBILE && <BillboardCar onEarned={handleCarEarned} />}
 
       <TopHUD
