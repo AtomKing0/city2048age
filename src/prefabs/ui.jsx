@@ -3,10 +3,6 @@ import { AGES } from '../config/ages.js';
 import { BuildingTile, getBuildingPng } from './tiles.jsx';
 import { GameImg } from './GameImg.jsx';
 
-// iOS Safari: continuously-animating DOM over the WebGL canvas tanks FPS (~1).
-// On mobile we render static (non-animated) clouds — composited once, no per-frame cost.
-const IS_MOBILE = typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-
 // Reusable 9-slice background layer — drop inside any position:relative container
 function SliceSpan({ src, slice, bw }) {
   return (
@@ -143,29 +139,8 @@ function CloudShape({ color }) {
   );
 }
 
-// Static cloud positions for mobile (no animation → no per-frame canvas compositing)
-const STATIC_CLOUDS = [
-  { left: '6%',  top: '9%',  scale: 0.9 },
-  { left: '60%', top: '16%', scale: 0.7 },
-  { left: '24%', top: '82%', scale: 0.85 },
-];
-
 export const FloatingClouds = memo(function FloatingClouds({ age }) {
   const palette = CLOUD_COLORS[age] || CLOUD_COLORS.classic;
-
-  if (IS_MOBILE) {
-    // Mobile: static decorative clouds (perf — see note at top of file).
-    return (
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
-        {STATIC_CLOUDS.map((c, i) => (
-          <div key={i} style={{ position: 'absolute', left: c.left, top: c.top, transform: `scale(${c.scale})`, transformOrigin: 'left center' }}>
-            <CloudShape color={palette[i % palette.length]} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
     <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
       {CLOUD_CONFIGS.map((c, i) => (
